@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import VietEduSidebar from './components/VietEduSidebar';
 import Dashboard from './pages/Dashboard';
@@ -11,7 +10,10 @@ import ProfessionalPlan from './pages/ProfessionalPlan';
 import Rubrics from './pages/Rubrics';
 import GameCenter from './pages/GameCenter';
 import Intro from './pages/Intro';
-import SchoolAdmin from './pages/SchoolAdmin'; 
+
+// KÍCH HOẠT HỆ THỐNG QUẢN TRỊ BÌNH HÒA MỚI (CHỐNG NHẢY SỐ & SIDEBAR 2 LỚP)
+import VIETEDU_ADMIN_PRO_2026 from './VIETEDU_ADMIN_PRO_2026'; 
+
 import VietEduChat from './components/VietEduChat';
 import { UserRole } from './types';
 
@@ -20,7 +22,6 @@ const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState('dashboard');
   const [userRole, setUserRole] = useState<UserRole>(UserRole.ADMIN);
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const [selectedTab, setSelectedTab] = useState<'ADMIN' | 'TEACHER' | 'STUDENT'>('ADMIN');
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   useEffect(() => {
@@ -51,23 +52,40 @@ const App: React.FC = () => {
     setIsLoggedIn(false);
   };
 
+  // --- HỆ THỐNG ĐIỀU HƯỚNG NGUYÊN KHỐI ---
   const renderContent = () => {
     switch (currentPath) {
-      case 'dashboard': return <Dashboard onNavigate={setCurrentPath} onUpgrade={() => setIsUpgradeModalOpen(true)} user={currentUser} />;
-      case 'school-admin': return <SchoolAdmin onBack={() => setCurrentPath('dashboard')} />;
-      case 'lesson-planner': return <LessonPlanner onBack={() => setCurrentPath('dashboard')} userPlan="PRO" userRole={userRole} />;
-      case 'grade-book': return <GradeBook onBack={() => setCurrentPath('dashboard')} />;
-      case 'class-book': return <ClassBook onBack={() => setCurrentPath('dashboard')} />;
-      case 'rubrics': return <Rubrics onBack={() => setCurrentPath('dashboard')} />;
-      case 'pro-plan': return <ProfessionalPlan onBack={() => setCurrentPath('dashboard')} />;
-      case 'resources': return <ResourceHub onBack={() => setCurrentPath('dashboard')} />;
-      case 'videos': return <VideoHub onBack={() => setCurrentPath('dashboard')} />;
-      case 'game-center': return <GameCenter onBack={() => setCurrentPath('dashboard')} />;
-      case 'intro': return <Intro onBack={() => setCurrentPath('dashboard')} />;
-      default: return <Dashboard onNavigate={setCurrentPath} onUpgrade={() => setIsUpgradeModalOpen(true)} user={currentUser} />;
+      case 'dashboard': 
+        return <Dashboard onNavigate={setCurrentPath} onUpgrade={() => setIsUpgradeModalOpen(true)} user={currentUser} />;
+      
+      // KÍCH HOẠT HỆ THỐNG QUẢN TRỊ CHUYÊN SÂU BÌNH HÒA
+      case 'school-admin': 
+        return <VIETEDU_ADMIN_PRO_2026 />; 
+      
+      case 'lesson-planner': 
+        return <LessonPlanner onBack={() => setCurrentPath('dashboard')} userPlan="PRO" userRole={userRole} />;
+      case 'grade-book': 
+        return <GradeBook onBack={() => setCurrentPath('dashboard')} />;
+      case 'class-book': 
+        return <ClassBook onBack={() => setCurrentPath('dashboard')} />;
+      case 'rubrics': 
+        return <Rubrics onBack={() => setCurrentPath('dashboard')} />;
+      case 'pro-plan': 
+        return <ProfessionalPlan onBack={() => setCurrentPath('dashboard')} />;
+      case 'resources': 
+        return <ResourceHub onBack={() => setCurrentPath('dashboard')} />;
+      case 'videos': 
+        return <VideoHub onBack={() => setCurrentPath('dashboard')} />;
+      case 'game-center': 
+        return <GameCenter onBack={() => setCurrentPath('dashboard')} />;
+      case 'intro': 
+        return <Intro onBack={() => setCurrentPath('dashboard')} />;
+      default: 
+        return <Dashboard onNavigate={setCurrentPath} onUpgrade={() => setIsUpgradeModalOpen(true)} user={currentUser} />;
     }
   };
 
+  // --- GIAO DIỆN ĐĂNG NHẬP (LOGIN PORTAL) ---
   if (!isLoggedIn) {
     return (
       <div className="h-screen w-screen bg-[#061631] flex items-center justify-center font-sans overflow-hidden relative">
@@ -76,31 +94,31 @@ const App: React.FC = () => {
         
         <div className="bg-white/10 backdrop-blur-2xl w-full max-w-5xl h-[650px] rounded-[3rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] flex overflow-hidden border border-white/20 z-10 animate-in zoom-in-95 duration-700">
           <div className="w-[45%] p-16 flex flex-col justify-between border-r border-white/10">
-             <div>
-                <h1 className="text-6xl font-black italic gold-gradient-text tracking-tighter leading-none mb-4">VietEdu<br/>Smart</h1>
+              <div>
+                <h1 className="text-6xl font-black italic text-yellow-500 tracking-tighter leading-none mb-4">VietEdu<br/>Smart</h1>
                 <p className="text-blue-400 font-black uppercase tracking-[0.5em] italic text-xs">Lab Số 4.0 - Lab of the Future</p>
-             </div>
-             <div className="space-y-4">
+              </div>
+              <div className="space-y-4">
                 <div className="flex items-center gap-4 text-white/60">
                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10"><i className="fas fa-check"></i></div>
-                   <span className="text-sm font-bold italic">AI Soạn bài 5512 tức thì</span>
+                   <span className="text-sm font-bold italic">AI Quản trị & Kế toán đặc biệt</span>
                 </div>
                 <div className="flex items-center gap-4 text-white/60">
                    <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10"><i className="fas fa-check"></i></div>
-                   <span className="text-sm font-bold italic">Hệ thống quản trị Lab Số v4.0</span>
+                   <span className="text-sm font-bold italic">Hệ thống Bình Hòa 2026 (Sạch 100%)</span>
                 </div>
-             </div>
+              </div>
           </div>
 
           <div className="flex-1 p-16 flex flex-col justify-center text-center">
-             <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter mb-10">Bắt đầu trải nghiệm</h2>
-             <div className="grid grid-cols-1 gap-6">
+              <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter mb-10">Bắt đầu trải nghiệm</h2>
+              <div className="grid grid-cols-1 gap-6">
                 <button onClick={() => handleQuickAccess('ADMIN')} className="group bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white p-8 rounded-3xl transition-all shadow-2xl flex items-center justify-between border-b-8 border-black/20">
                    <div className="flex items-center gap-6">
                       <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-3xl transition-transform group-hover:scale-110"><i className="fas fa-shield-halved"></i></div>
                       <div className="text-left">
                          <span className="block text-[11px] font-black uppercase tracking-widest opacity-60">Phân hệ dành cho</span>
-                         <span className="text-xl font-black uppercase italic tracking-tighter">BAN GIÁM HIỆU</span>
+                         <span className="text-xl font-black uppercase italic tracking-tighter">BAN GIÁM HIỆU (ADMIN PRO)</span>
                       </div>
                    </div>
                    <i className="fas fa-chevron-right opacity-30 group-hover:opacity-100 group-hover:translate-x-2 transition-all"></i>
@@ -116,25 +134,15 @@ const App: React.FC = () => {
                    </div>
                    <i className="fas fa-chevron-right opacity-30 group-hover:opacity-100 group-hover:translate-x-2 transition-all"></i>
                 </button>
-
-                <button onClick={() => handleQuickAccess('STUDENT')} className="group bg-gradient-to-r from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white p-8 rounded-3xl transition-all shadow-2xl flex items-center justify-between border-b-8 border-black/20">
-                   <div className="flex items-center gap-6">
-                      <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-3xl transition-transform group-hover:scale-110"><i className="fas fa-graduation-cap"></i></div>
-                      <div className="text-left">
-                         <span className="block text-[11px] font-black uppercase tracking-widest opacity-60">Phân hệ dành cho</span>
-                         <span className="text-xl font-black uppercase italic tracking-tighter">HỌC SINH KHÁCH</span>
-                      </div>
-                   </div>
-                   <i className="fas fa-chevron-right opacity-30 group-hover:opacity-100 group-hover:translate-x-2 transition-all"></i>
-                </button>
-             </div>
-             <p className="mt-12 text-white/30 text-[10px] font-black uppercase tracking-widest italic">Hệ thống đang chạy bản Lab Testing v4.0 Chốt</p>
+              </div>
+              <p className="mt-12 text-white/30 text-[10px] font-black uppercase tracking-widest italic">Hệ thống đang chạy bản Lab Testing v4.0 Chốt</p>
           </div>
         </div>
       </div>
     );
   }
 
+  // --- GIAO DIỆN SAU KHI ĐĂNG NHẬP ---
   return (
     <div className="flex h-screen overflow-hidden bg-[#f1f5f9]">
       <VietEduSidebar currentPath={currentPath} onNavigate={setCurrentPath} onLogout={handleLogout} userRole={userRole} />
